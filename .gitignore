@@ -1,0 +1,11 @@
+node_modules
+dist
+.DS_Store
+*.log
+
+*.tsbuildinfo
+server/data/demo-state.json
+server/data/demo-state.json.tmp
+.env
+.env.*
+!.env.example
