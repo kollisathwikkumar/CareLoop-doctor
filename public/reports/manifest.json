@@ -1,9 +1,0 @@
-{
-  "notice": "All documents are synthetic demo summaries generated locally. They are not patient records or clinical advice.",
-  "reports": [
-    { "patientId": "CL-1042", "title": "Diabetes care coordination summary", "file": "/reports/CL-1042-demo-report.pdf", "source": "Locally generated fictional fixture", "attribution": "CareLoop demonstration content" },
-    { "patientId": "CL-2088", "title": "Maternal health coordination summary", "file": "/reports/CL-2088-demo-report.pdf", "source": "Locally generated fictional fixture", "attribution": "CareLoop demonstration content" },
-    { "patientId": "CL-3315", "title": "Cancer follow-up coordination summary", "file": "/reports/CL-3315-demo-report.pdf", "source": "Locally generated fictional fixture", "attribution": "CareLoop demonstration content" },
-    { "patientId": "CL-4170", "title": "Maternal health coordination summary", "file": "/reports/CL-4170-demo-report.pdf", "source": "Locally generated fictional fixture", "attribution": "CareLoop demonstration content" }
-  ]
-}

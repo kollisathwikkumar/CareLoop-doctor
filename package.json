@@ -5,9 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "demo:api": "node server/demo-api.mjs",
-    "demo:start": "node server/demo-api.mjs",
-    "demo:reports": "python3 scripts/generate_demo_reports.py",
+    "api": "node server/api-server.mjs",
     "build": "tsc -b && vite build",
     "typecheck": "tsc -b --pretty false",
     "lint": "tsc -b --pretty false",

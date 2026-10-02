@@ -4,22 +4,12 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const storePath = resolve(process.env.DEMO_API_STATE_PATH ?? resolve(root, 'server/data/demo-state.json'))
-const host = process.env.DEMO_API_HOST ?? '0.0.0.0'
-const port = Number(process.env.DEMO_API_PORT ?? 4317)
+const storePath = resolve(process.env.CARELOOP_API_STATE_PATH ?? resolve(root, 'server/data/live-state.json'))
+const host = process.env.CARELOOP_API_HOST ?? '0.0.0.0'
+const port = Number(process.env.CARELOOP_API_PORT ?? 4317)
 const maxBodyBytes = 1_500_000
 const clients = new Set()
 
-const seedPatients = [
-  { id: 'CL-1042', name: 'Ramesh Kumar', program: 'Diabetes care', nextFollowup: '24 September 2026', weekday: 'Thursday', time: '10:30 AM', doctor: 'Dr. K. Sathwik', department: 'General Medicine', assigned: 'Dr. K. Sathwik', response: 'No response', status: 'Staff Action Required', reminder: 'Sent', nextAction: 'Call patient and confirm diabetes review', updatedAt: '2026-09-24T08:45:00.000Z' },
-  { id: 'CL-2088', name: 'Meena Sharma', program: 'Maternal health', nextFollowup: '01 October 2026', weekday: 'Thursday', time: '11:00 AM', doctor: 'Dr. Priya Rao', department: 'Maternal health', assigned: 'Ananya Menon', response: 'Reschedule requested', status: 'Reschedule Requested', reminder: 'Sent', nextAction: 'Review preferred appointment time', updatedAt: '2026-09-24T08:00:00.000Z' },
-  { id: 'CL-3315', name: 'Arjun Rao', program: 'Cancer follow-up', nextFollowup: '12 October 2026', weekday: 'Monday', time: '02:00 PM', doctor: 'Dr. Priya Rao', department: 'Oncology', assigned: 'Dr. Priya Rao', response: 'Confirmed', status: 'Confirmed', reminder: 'Not sent', nextAction: 'Prepare next surveillance review', updatedAt: '2026-09-24T07:30:00.000Z' },
-  { id: 'CL-4170', name: 'Asha Nair', program: 'Maternal health', nextFollowup: '22 September 2026', weekday: 'Tuesday', time: '09:15 AM', doctor: 'Dr. K. Sathwik', department: 'Maternal health', assigned: 'Unassigned', response: 'No response', status: 'Staff Action Required', reminder: 'Sent', nextAction: 'Assign owner and escalate missed review', updatedAt: '2026-09-24T06:30:00.000Z' },
-]
-
-const seedMessages = [
-  { id: 'msg-ramesh-1', patientId: 'CL-1042', sender: 'care-team', text: 'Hello Ramesh, your diabetes follow-up is due. Please confirm the appointment or message us if you need another time.', createdAt: '2026-09-24T08:30:00.000Z' },
-]
 
 let state
 let saveQueue = Promise.resolve()
@@ -27,9 +17,9 @@ let saveQueue = Promise.resolve()
 async function readState() {
   try {
     const parsed = JSON.parse(await readFile(storePath, 'utf8'))
-    if (Array.isArray(parsed.patients) && parsed.patients.length) return { ...parsed, messages: Array.isArray(parsed.messages) ? parsed.messages : structuredClone(seedMessages) }
-  } catch { /* First run or invalid demo state: initialize the included sample records. */ }
-  return { patients: structuredClone(seedPatients), messages: structuredClone(seedMessages) }
+    if (Array.isArray(parsed.patients)) return { ...parsed, messages: Array.isArray(parsed.messages) ? parsed.messages : [] }
+  } catch { /* First run or invalid state starts empty. */ }
+  return { patients: [], messages: [] }
 }
 
 async function persist() {
@@ -108,7 +98,7 @@ function safeNewPatient(input) {
 const server = createServer(async (request, response) => {
   const origin = request.headers.origin
   const allowedOrigins = new Set(['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:5174', 'http://127.0.0.1:5174', 'http://localhost:4173', 'http://127.0.0.1:4173'])
-  if (origin && !allowedOrigins.has(origin)) return json(response, 403, { error: 'Origin not allowed for the local demo API.' })
+  if (origin && !allowedOrigins.has(origin)) return json(response, 403, { error: 'Origin not allowed for the local API.' })
   if (origin) response.setHeader('Access-Control-Allow-Origin', origin)
   response.setHeader('Vary', 'Origin')
   response.setHeader('Access-Control-Allow-Methods', 'GET, PATCH, POST, OPTIONS')
@@ -117,7 +107,7 @@ const server = createServer(async (request, response) => {
 
   const url = new URL(request.url ?? '/', `http://${host}:${port}`)
   try {
-    if (request.method === 'GET' && url.pathname === '/api/health') return json(response, 200, { ok: true, service: 'careloop-demo-api' })
+    if (request.method === 'GET' && url.pathname === '/api/health') return json(response, 200, { ok: true, service: 'careloop-api' })
     if (request.method === 'GET' && url.pathname === '/api/patients') return json(response, 200, { patients: state.patients })
     if (request.method === 'POST' && url.pathname === '/api/patients') {
       const input = safeNewPatient(await readBody(request))
@@ -159,7 +149,7 @@ const server = createServer(async (request, response) => {
       if (input.attachment !== undefined) {
         const item = input.attachment
         if (!item || !['image', 'report'].includes(item.kind) || typeof item.name !== 'string' || typeof item.mimeType !== 'string' || typeof item.data !== 'string' || item.name.length > 160 || item.data.length > 1_300_000) {
-          return json(response, 400, { error: 'Attachment is invalid or exceeds the demo size limit.' })
+          return json(response, 400, { error: 'Attachment is invalid or exceeds the size limit.' })
         }
         if (item.kind === 'image' && !/^data:image\/(png|jpeg|webp);base64,/.test(item.data)) return json(response, 400, { error: 'Only PNG, JPEG, or WebP image attachments are supported.' })
         if (item.kind === 'report' && !/^https?:\/\//.test(item.data)) return json(response, 400, { error: 'Report attachment must link to a report URL.' })
@@ -185,7 +175,7 @@ const server = createServer(async (request, response) => {
     if (patientPath) {
       const id = decodeURIComponent(patientPath[1])
       const index = state.patients.findIndex((item) => item.id === id)
-      if (index < 0) return json(response, 404, { error: 'Demo patient not found.' })
+      if (index < 0) return json(response, 404, { error: 'Patient not found.' })
       if (request.method === 'GET') return json(response, 200, { patient: state.patients[index] })
       if (request.method === 'PATCH') {
         const patch = safePatch(await readBody(request))
@@ -196,17 +186,11 @@ const server = createServer(async (request, response) => {
       }
       return json(response, 405, { error: 'Method not allowed.' })
     }
-    if (request.method === 'POST' && url.pathname === '/api/demo/reset') {
-      state = { patients: structuredClone(seedPatients), messages: structuredClone(seedMessages) }
-      await persist()
-      for (const patient of state.patients) notify(patient)
-      return json(response, 200, { patients: state.patients })
-    }
-    return json(response, 404, { error: 'Route not found.' })
+        return json(response, 404, { error: 'Route not found.' })
   } catch (error) {
-    return json(response, error?.status ?? 500, { error: error instanceof Error ? error.message : 'Unexpected demo API error.' })
+    return json(response, error?.status ?? 500, { error: error instanceof Error ? error.message : 'Unexpected API error.' })
   }
 })
 
 state = await readState()
-server.listen(port, host, () => console.log(`CareLoop demo API listening at http://${host}:${port}`))
+server.listen(port, host, () => console.log(`CareLoop local API listening at http://${host}:${port}`))

@@ -2,17 +2,19 @@
 
 Care-team dashboard for patient follow-up, appointments, worklists, messaging, and reports.
 
-## Run the local demo
+## Local development
 
 Requirements: Node.js 20+ and npm.
 
-1. Install dependencies: `npm ci`
-2. Start the local demo API in one terminal: `npm run demo:api`
-3. Start the dashboard in another terminal: `npm run dev`
+1. Install dependencies with `npm ci`.
+2. Start the local API with `npm run api`.
+3. In another terminal, start the dashboard with `npm run dev`.
 4. Open the local URL printed by Vite.
 
-The demo API stores generated demonstration state under `server/data/demo-state.json`; that local file is ignored by Git and is intentionally not part of this repository. Bundled patient examples and reports are synthetic demo content. This demo API is not a production patient-data service.
+The dashboard and API start with empty patient, care-team, message, and report lists. Records appear only after they are entered or returned by the connected API. Old demo browser storage is not read. Local API state is stored in `server/data/live-state.json` and is not committed.
 
-## Verify a production bundle
+The included local API is a development integration bridge; it has no authentication or production-grade patient-data safeguards. Do not deploy it or use it for real patient records.
 
-`npm run build`
+## Production build
+
+Run `npm run build`.
