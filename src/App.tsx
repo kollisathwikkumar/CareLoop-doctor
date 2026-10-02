@@ -642,7 +642,7 @@ function MessagesPage({ patients }: { patients: Patient[] }) {
         <header className="message-thread-header">
           <div className="message-patient-avatar">{patient.initials}</div>
           <div className="message-patient-title"><strong>{patient.name}</strong><span>{patient.id} · {patient.program} · {patient.doctor}</span></div>
-          
+
           <button className="message-call" aria-label="Start video visit" title="Arrange a video visit" onClick={() => window.dispatchEvent(new CustomEvent('careloop:toast', { detail: 'Video visits can be arranged by calling the patient.' }))}><Video size={18} /></button>
           {patient.reportUrl && <a className="message-call" href={patient.reportUrl} target="_blank" rel="noreferrer" aria-label={`Open ${patient.name} report`}><FileText size={17} /></a>}
         </header>
