@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1050" viewBox="0 0 1600 1050" role="img" aria-labelledby="title desc">
+<title id="title">CareLoop — Current Backend Plan</title><desc id="desc">A visual overview of CareLoop's shared Supabase backend, secure workflows, verified foundation, and remaining production-readiness steps.</desc>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#081b2a"/><stop offset="1" stop-color="#102d3d"/></linearGradient><linearGradient id="core" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#123c50"/><stop offset="1" stop-color="#0d2b3b"/></linearGradient><filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#020b12" flood-opacity=".35"/></filter></defs>
+<rect width="1600" height="1050" fill="url(#bg)"/><circle cx="1460" cy="70" r="210" fill="#1c6974" opacity=".14"/><circle cx="75" cy="910" r="250" fill="#30c5a4" opacity=".07"/>
+<g font-family="Inter,Segoe UI,Arial,sans-serif" fill="#eff8fa">
+<text x="82" y="82" font-size="18" font-weight="700" letter-spacing="3" fill="#77e0c2">CARELOOP • BACKEND MAP</text><text x="82" y="145" font-size="48" font-weight="750">One secure backend. Two connected care experiences.</text><text x="82" y="184" font-size="21" fill="#b5cbd3">Current state, what it powers, and the remaining path to a fully verified launch.</text>
+<rect x="1165" y="52" width="350" height="52" rx="26" fill="#173d3c" stroke="#44c8a0"/><circle cx="1192" cy="78" r="7" fill="#54dfb1"/><text x="1210" y="85" font-size="16" font-weight="700" fill="#a8f1d8">CORE DEPLOYED • PROVIDER SETUP PENDING</text>
+<!-- client cards -->
+<g filter="url(#shadow)"><rect x="82" y="230" width="370" height="116" rx="18" fill="#f4fbfa"/><rect x="1148" y="230" width="370" height="116" rx="18" fill="#f4fbfa"/></g>
+<text x="112" y="274" font-size="15" font-weight="700" letter-spacing="1.4" fill="#458477">EXISTING CLIENT</text><text x="112" y="315" font-size="28" font-weight="700" fill="#102b35">CareLoop Patient app</text>
+<text x="1178" y="274" font-size="15" font-weight="700" letter-spacing="1.4" fill="#458477">STAFF EXPERIENCE</text><text x="1178" y="315" font-size="28" font-weight="700" fill="#102b35">Doctor dashboard</text>
+<!-- arrows -->
+<path d="M452 287 H552" stroke="#60d7ba" stroke-width="3"/><path d="M1048 287 H1148" stroke="#60d7ba" stroke-width="3"/><path d="M538 278 l14 9 -14 9 M1062 278 l-14 9 14 9" fill="none" stroke="#60d7ba" stroke-width="3"/>
+<!-- core -->
+<rect x="552" y="220" width="496" height="135" rx="22" fill="url(#core)" stroke="#3bbd9f" stroke-width="2" filter="url(#shadow)"/><text x="800" y="260" text-anchor="middle" font-size="15" font-weight="700" letter-spacing="2" fill="#71dfc2">SHARED SUPABASE PROJECT</text><text x="800" y="301" text-anchor="middle" font-size="30" font-weight="750">Auth  +  Data API  +  PostgreSQL</text><text x="800" y="331" text-anchor="middle" font-size="17" fill="#b5d3d8">Database-enforced access • Row Level Security (RLS)</text>
+<!-- vertical connector -->
+<path d="M800 355 V388" stroke="#60d7ba" stroke-width="3"/><path d="M791 376 l9 12 9-12" fill="none" stroke="#60d7ba" stroke-width="3"/>
+<!-- modules panel -->
+<rect x="82" y="395" width="1436" height="226" rx="22" fill="#0c2635" stroke="#295267" stroke-width="1.5"/><text x="116" y="438" font-size="16" font-weight="700" letter-spacing="2" fill="#71dfc2">BACKEND MODULES • POSTGRES IS THE SOURCE OF TRUTH</text>
+<g>
+<rect x="116" y="462" width="315" height="124" rx="14" fill="#15384a"/><text x="140" y="497" font-size="20" font-weight="700">Identity &amp; tenancy</text><text x="140" y="529" font-size="16" fill="#c1d4dc">Profiles • organisations • teams</text><text x="140" y="554" font-size="16" fill="#c1d4dc">Patient links • consent • roles</text>
+<rect x="454" y="462" width="315" height="124" rx="14" fill="#15384a"/><text x="478" y="497" font-size="20" font-weight="700">Care coordination</text><text x="478" y="529" font-size="16" fill="#c1d4dc">Appointments • tests • reports</text><text x="478" y="554" font-size="16" fill="#c1d4dc">Medication • plans • follow-ups</text>
+<rect x="792" y="462" width="315" height="124" rx="14" fill="#15384a"/><text x="816" y="497" font-size="20" font-weight="700">Staff workflows</text><text x="816" y="529" font-size="16" fill="#c1d4dc">Invitations • group assignments</text><text x="816" y="554" font-size="16" fill="#c1d4dc">Task queue • audit history</text>
+<rect x="1130" y="462" width="354" height="124" rx="14" fill="#15384a"/><text x="1154" y="497" font-size="20" font-weight="700">Private file &amp; delivery</text><text x="1154" y="529" font-size="16" fill="#c1d4dc">Patient-scoped report storage</text><text x="1154" y="554" font-size="16" fill="#c1d4dc">Transactional outbox • worker</text>
+</g>
+<!-- workflows -->
+<text x="82" y="679" font-size="16" font-weight="700" letter-spacing="2" fill="#71dfc2">HOW A CHANGE MOVES THROUGH THE SYSTEM</text>
+<g filter="url(#shadow)"><rect x="82" y="704" width="450" height="105" rx="16" fill="#f4fbfa"/><rect x="575" y="704" width="450" height="105" rx="16" fill="#f4fbfa"/><rect x="1068" y="704" width="450" height="105" rx="16" fill="#f4fbfa"/></g>
+<text x="112" y="744" font-size="17" font-weight="700" fill="#158c77">1  AUTHORIZE</text><text x="112" y="780" font-size="21" font-weight="700" fill="#102b35">Session + grants + RLS</text>
+<text x="605" y="744" font-size="17" font-weight="700" fill="#158c77">2  COMMIT TOGETHER</text><text x="605" y="780" font-size="21" font-weight="700" fill="#102b35">Domain change + audit + outbox</text>
+<text x="1098" y="744" font-size="17" font-weight="700" fill="#158c77">3  DELIVER &amp; REFRESH</text><text x="1098" y="780" font-size="21" font-weight="700" fill="#102b35">Retryable notices; apps refetch</text>
+<path d="M532 756 H575 M1025 756 H1068" stroke="#60d7ba" stroke-width="3"/><path d="M563 748 l12 8 -12 8 M1056 748 l12 8 -12 8" fill="none" stroke="#60d7ba" stroke-width="3"/>
+<!-- status footer -->
+<rect x="82" y="844" width="690" height="152" rx="18" fill="#123e3c" stroke="#2d9f82"/><text x="112" y="883" font-size="16" font-weight="700" letter-spacing="1.5" fill="#75e1bf">VERIFIED FOUNDATION</text><text x="112" y="919" font-size="18">24 contract/security tests • local API/RLS journeys pass</text><text x="112" y="950" font-size="18">Schema lint clean • RLS init-plan findings: 9 → 0</text><text x="112" y="978" font-size="16" fill="#bbdcd4">Migrations + worker deployed; remote end-to-end still pending.</text>
+<rect x="798" y="844" width="720" height="152" rx="18" fill="#3a3021" stroke="#d79c49"/><text x="828" y="883" font-size="16" font-weight="700" letter-spacing="1.5" fill="#ffd181">NEXT TO FINISH PRODUCTION VERIFICATION</text><text x="828" y="919" font-size="18">1  Add real SMS (Twilio) and notification-worker secrets.</text><text x="828" y="950" font-size="18">2  Run real-account OTP, consent, follow-up, report-access journeys.</text><text x="828" y="979" font-size="16" fill="#ecd9b8">Then complete operational readiness and explicit go-live review.</text>
+<text x="82" y="1030" font-size="14" fill="#8eabb6">CareLoop backend • current summary from backend README, implementation status, architecture, and roadmap</text>
+</g></svg>

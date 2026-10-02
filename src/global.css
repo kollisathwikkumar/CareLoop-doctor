@@ -1,0 +1,29 @@
+:root {
+  --font-display: Spline Sans, Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-rounded: 'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, sans-serif;
+  --font-serif: Georgia, 'Times New Roman', serif;
+}
+
+#careloop-staff-scroll { scroll-behavior: smooth; }
+
+.careloop-staff-button {
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), background-color 160ms ease, box-shadow 160ms ease;
+}
+.careloop-staff-nav-item { transition: background-color 160ms ease, color 160ms ease; }
+.careloop-staff-magnetic {
+  transform: translate3d(calc(var(--magnetic-x, 0) * 1px), calc(var(--magnetic-y, 0) * 1px), 0);
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .careloop-staff-button:hover { box-shadow: 0 7px 17px rgba(28, 71, 144, 0.16); transform: translateY(-2px); }
+  .careloop-staff-button:active { box-shadow: none; transform: scale(0.985); }
+  .careloop-staff-nav-item:hover { background-color: rgba(129, 157, 189, 0.15); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #careloop-staff-scroll { scroll-behavior: auto; }
+  .careloop-staff-button, .careloop-staff-nav-item, .careloop-staff-magnetic { transition: none; }
+  .careloop-staff-magnetic { transform: none; }
+}

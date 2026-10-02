@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "CareLoop Doctor",
+    "slug": "careloop-doctor",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/images/icon.png",
+    "scheme": "careloopdoctor",
+    "userInterfaceStyle": "light",
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": ["expo-router", ["expo-splash-screen", {"backgroundColor":"#F5F7F8","image":"./assets/images/splash-icon.png","imageWidth":76}]],
+    "experiments": {"typedRoutes": true, "reactCompiler": true}
+  }
+}

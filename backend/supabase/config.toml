@@ -1,0 +1,49 @@
+project_id = "careloop"
+
+[api]
+enabled = true
+schemas = ["public", "storage"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+
+[studio]
+port = 54323
+
+[local_smtp]
+enabled = true
+port = 54324
+
+[storage]
+enabled = true
+
+[auth]
+enabled = true
+enable_signup = true
+site_url = "http://127.0.0.1:3000"
+additional_redirect_urls = ["carelooppatient://auth/callback"]
+
+[auth.sms]
+enable_signup = true
+enable_confirmations = false
+template = "Your CareLoop verification code is {{ .Code }}"
+max_frequency = "30s"
+
+[auth.sms.test_otp]
+"+910000000001" = "123456"
+"+910000000002" = "123456"
+
+# Local-only placeholder provider configuration. GoTrue disables phone login
+# entirely when no SMS provider is enabled, even when test_otp is configured.
+# The test OTP above is consumed by the local smoke test; real deployments must
+# configure an actual provider and secrets in the hosted Supabase project.
+[auth.sms.twilio]
+enabled = true
+account_sid = "AC00000000000000000000000000000000"
+message_service_sid = "MG00000000000000000000000000000000"
+auth_token = "00000000000000000000000000000000"
+
+[functions.process-outbox]
+verify_jwt = false

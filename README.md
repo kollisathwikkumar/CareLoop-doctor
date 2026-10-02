@@ -1,20 +1,24 @@
 # CareLoop Doctor
 
-Care-team dashboard for patient follow-up, appointments, worklists, messaging, and reports.
+Care-team web dashboard for patient follow-up, appointments, care teams, tests and reports, medications, care plans, QR-based patient connection, and staff/patient messaging.
 
-## Local development
+## Run the dashboard
 
 Requirements: Node.js 20+ and npm.
 
-1. Install dependencies with `npm ci`.
-2. Start the local API with `npm run api`.
-3. In another terminal, start the dashboard with `npm run dev`.
-4. Open the local URL printed by Vite.
+1. Copy `.env.example` to `.env`.
+2. Set `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` from the Supabase project settings. Use only the publishable/anon client key; never put a service-role key in this app.
+3. Install with `npm ci`.
+4. Run `npm run web` and open the `/staff` route. The root route opens the dashboard; signed-out users are directed to staff sign-in.
 
-The dashboard and API start with empty patient, care-team, message, and report lists. Records appear only after they are entered or returned by the connected API. Old demo browser storage is not read. Local API state is stored in `server/data/live-state.json` and is not committed.
+The dashboard uses the Supabase client and authenticated staff workflows. It does not contain demo users, seeded patient examples, fake browser storage, or a local JSON API. Data shown comes from the configured Supabase project and its row-level security policies.
 
-The included local API is a development integration bridge; it has no authentication or production-grade patient-data safeguards. Do not deploy it or use it for real patient records.
+## Backend
 
-## Production build
+The `backend/` directory contains the Supabase migrations, Edge Function, generated database types, and contract/integration tests. See [`backend/README.md`](backend/README.md) and [`backend/docs/IMPLEMENTATION_STATUS.md`](backend/docs/IMPLEMENTATION_STATUS.md).
 
-Run `npm run build`.
+Run backend contract tests with `cd backend && npm test`. Local database integration tests require the Supabase CLI and Docker; follow `backend/README.md` before resetting a local database. Production notification delivery and phone OTP require provider secrets configured in Supabase; those secrets are intentionally not committed.
+
+## Security
+
+RLS is the authorization boundary. The frontend uses only the public publishable key. Do not commit `.env` files, credentials, patient data, service-role keys, or local Supabase state.
