@@ -143,6 +143,12 @@ export type StaffChatMessage = {
   created_at: string;
 };
 
+export type ConnectionInvitation = {
+  code: string;
+  qr_payload: string;
+  expires_at: string;
+};
+
 const STAFF_ROLES: readonly StaffRole[] = ['doctor', 'staff', 'care_coordinator', 'org_admin', 'platform_admin'];
 
 function getStaffAuthRedirectUrl(): string | undefined {
@@ -431,7 +437,7 @@ export async function addPatientToGroup(groupId: string, patientId: string): Pro
   if (error) throw error;
 }
 
-export async function createConnectionInvitation(patientId: string): Promise<{ code: string; expires_at: string }> {
+export async function createConnectionInvitation(patientId: string): Promise<ConnectionInvitation> {
   const { data: userData, error: userError } = await supabase.auth.getUser();
   if (userError || !userData.user) throw new Error('Sign in is required to create a patient connection.');
   const { data: membership, error: membershipError } = await supabase.from('care_team_memberships')
@@ -442,15 +448,17 @@ export async function createConnectionInvitation(patientId: string): Promise<{ c
     .maybeSingle();
   if (membershipError) throw membershipError;
   if (!membership?.care_team_id) throw new Error('Your account is not assigned to an active care team.');
-  const { data, error } = await supabase.rpc('create_connection_invitation', {
+  const { data, error } = await supabase.rpc('create_connection_qr_invitation', {
     target_patient_id: patientId,
     target_care_team_id: membership.care_team_id,
     invitation_ttl_hours: 24,
   });
   if (error) throw error;
   const invitation = Array.isArray(data) ? data[0] : data;
-  if (!invitation?.code || !invitation.expires_at) throw new Error('The invitation service returned an incomplete connection code.');
-  return invitation as { code: string; expires_at: string };
+  if (!invitation?.code || !invitation.qr_payload || !invitation.expires_at) {
+    throw new Error('The invitation service returned an incomplete QR connection invitation.');
+  }
+  return invitation as ConnectionInvitation;
 }
 
 export async function getDashboardSummary(): Promise<DashboardSummary> {

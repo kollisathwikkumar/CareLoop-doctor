@@ -84,7 +84,7 @@ export default function StaffDashboardScreen() {
     setError('');
     try {
       const invitation = await createConnectionInvitation(connectionPatientId);
-      const qr = await QRCode.toDataURL(invitation.code, { errorCorrectionLevel: 'M', margin: 1, width: 192 });
+      const qr = await QRCode.toDataURL(invitation.qr_payload, { errorCorrectionLevel: 'M', margin: 1, width: 192 });
       setConnectionCode(invitation.code);
       setConnectionQr(qr);
       setConnectionExpiry(invitation.expires_at);

@@ -47,6 +47,7 @@
     "start": "expo start",
     "web": "expo start --web",
     "build": "expo export --platform web",
+    "test": "node --test scripts/*.test.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "expo lint"
   },
